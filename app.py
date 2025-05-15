@@ -1,24 +1,31 @@
 import streamlit as st
-from joblib import load
+from pages import Data_Exploration, Model_Training, Prediction_Page
+from data_utils import load_data
 
+# Set the page configuration
 
-# Load the saved model
-model = load('random_forest_model.joblib')
+st.set_page_config(
+    page_title= "Climate Trend Predictor",
+    page_icon=" ",
+    layout = "wide" 
+)
 
+# Give the title and desc
+st.title("Climate Trend Analysis and Prediction")
+st.markdown("Analyze the historical temperature and rainfall data for Tanzania and predict future trends")
 
-# Create the Streamlit interface
-st.title('Climate Change Prediction for Tanzania')
+# Load the data
+df = load_data()
 
-# Add input components based on your model's features
-#feature1 = st.number_input('Feature 1', value=0.0)
-#feature2 = st.number_input('Feature 2', value=0.0)
+st.sidebar.title("Navigation")
+page = st.sidebar.radio("Go to", ['Data Exploration', 'Model Training', 'Prediction'])
 
-user_input = st.text_input("What's your name?")
-if user_input:
-    st.write(f"Hello, {user_input}!")
+# Display the selected page
+if page == "Data Exploration":
+    Data_Exploration.show(df)
 
-# Make prediction when button is clicked
-#if st.button('Predict'):
-#    input_data = [[feature1, feature2]]  # format according to your model's requirements
-#    prediction = model.predict(input_data)
-#    st.success(f'Predicted Value: {prediction[0]:.2f}')
+elif page == "Model Training":
+    Model_Training.show(df)
+
+else:
+    Prediction_Page.show(df)
