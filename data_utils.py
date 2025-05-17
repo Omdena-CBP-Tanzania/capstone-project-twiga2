@@ -13,7 +13,7 @@ def load_data():
     """
     climatedf = pd.read_csv("data/tanzania_climate_data.csv")
     
-    return climatedf.head()
+    return climatedf
 
 def prepare_features(climatedf):
     """

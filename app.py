@@ -29,3 +29,5 @@ elif page == "Model Training":
 
 else:
     Prediction_Page.show(df)
+
+
