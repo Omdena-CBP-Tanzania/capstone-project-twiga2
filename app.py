@@ -1,5 +1,5 @@
 import streamlit as st
-from pages import Data_Exploration, Model_Training, Prediction_Page
+from pages import data_exploration, model_training, prediction_page
 from data_utils import load_data
 
 # Set the page configuration
@@ -22,12 +22,12 @@ page = st.sidebar.radio("Go to", ['Data Exploration', 'Model Training', 'Predict
 
 # Display the selected page
 if page == "Data Exploration":
-    Data_Exploration.show(df)
+    data_exploration.show(df)
 
 elif page == "Model Training":
-    Model_Training.show(df)
+    model_training.show(df)
 
 else:
-    Prediction_Page.show(df)
+    prediction_page.show(df)
 
 

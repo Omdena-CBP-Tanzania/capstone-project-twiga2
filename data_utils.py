@@ -24,11 +24,12 @@ def prepare_features(climatedf):
     climatedf['month_cos'] = np.cos(2 * np.pi * climatedf['Month'] / 12)
 
     #lag features for time series forecasting 
-    climatedf['lag_1'] = climatedf['Average_Temperature_C'].shift(1) # previous month
-    climatedf['lag_12'] = climatedf['Average_Temperature_C'].shift(12) #same month last year
+   # climatedf['lag_1'] = climatedf['Average_Temperature_C'].shift(1) # previous month
+   # climatedf['lag_12'] = climatedf['Average_Temperature_C'].shift(12) #same month last year
 
-    X = climatedf[['Year','Month','Total_Rainfall_mm','Max_Temperature_C','Min_Temperature_C',
-                   'month_sin','month_cos','lag_1','lag_12']].values
+
+    # dropped other lag_1, lag_12, Total_Rainfall_mm, Year, Month due to heatmap results
+    X = climatedf[['Max_Temperature_C','Min_Temperature_C','month_sin','month_cos']].values
     y = climatedf['Average_Temperature_C'].values
 
     return X, y

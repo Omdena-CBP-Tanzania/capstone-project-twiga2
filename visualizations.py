@@ -139,17 +139,56 @@ def heatmap_corr(df):
     """
     #correlation between variables
 
-    annual_data = df.groupby("Year").mean().reset_index()
+   # annual_data = df.groupby("Year").mean().reset_index()
+    
+    df['month_sin'] = np.sin(2 * np.pi * df['Month']/12)
+    df['month_cos'] = np.cos(2 * np.pi * df['Month']/12)
+
+    #lag features for time-series dependency
+    df['lag_1'] = df['Average_Temperature_C'].shift(1)
+    df['lag_12'] = df['Average_Temperature_C'].shift(12)
+    df.dropna(inplace=True)             # delete all null values from lags
     
     fig, ax = plt.subplots(figsize=(10,8))
-    numeric_variables = annual_data[['Average_Temperature_C', 'Total_Rainfall_mm','Max_Temperature_C', 'Min_Temperature_C']]
+    
+    numeric_variables = df[['Average_Temperature_C', 
+                            'Total_Rainfall_mm',
+                            'Max_Temperature_C',
+                            'Min_Temperature_C',
+                            'month_sin',    #cyclical month(sine)
+                            'month_cos',    #cyclical month (cosine)
+                            'lag_1',
+                            'lag_12']] 
+    
+    seascorr = numeric_variables.corr()
 
-    sns.heatmap(numeric_variables.corr(), 
+    sns.heatmap(
+            seascorr, 
             cmap='coolwarm', 
             annot=True, 
             vmin=-1, 
-            vmax=1, 
+            vmax=1,
+            fmt=".2f",
+            linewidths=0.5,
+            mask = np.triu(np.ones_like(seascorr, dtype=bool), k=1),  #lower triangle only
             ax=ax)
-    ax.set_title("Correlation Heatmap: Temperature and Rainfall over 21 Years")
+    ax.set_title("Correlation Heatmap: Temperature and Rainfall (Monthly Patterns)")
     plt.tight_layout()
     return fig 
+
+def plot_actual_vs_predicted(y_test, y_pred):
+    """
+    Plot the actual vs predicted values
+    """
+    fig, ax = plt.subplots(figsize = (10,6))
+    ax.scatter(y_test, y_pred, alpha=0.7)
+    ax.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], 'r--')
+    ax.set_xlabel("Actual Avg Temperature")
+    ax.set_ylabel("Predicted Avg Temperature")
+    ax.set_title("Actual vs Predicted Avg Temperatures")
+    ax.grid(True)
+    return fig
+
+def plot_prediction_context():
+
+    pass
