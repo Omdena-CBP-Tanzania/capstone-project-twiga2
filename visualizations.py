@@ -187,8 +187,38 @@ def plot_actual_vs_predicted(y_test, y_pred):
     ax.set_ylabel("Predicted Avg Temperature")
     ax.set_title("Actual vs Predicted Avg Temperatures")
     ax.grid(True)
+    
     return fig
 
+def plot_forecast(forecast):
+    """
+    Plot the predicted Avg Temp, forecast Min Temp and Max Temp 
+    """
+    
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(forecast['Month'], forecast['Predicted_Avg_Temp'], label='Avg Temp', marker='o')
+    ax.plot(forecast['Month'], forecast['Forecasted_Min_Temp'], label='Min Temp', linestyle='--')
+    ax.plot(forecast['Month'], forecast['Forecasted_Max_Temp'], label='Max Temp', linestyle='--')
+    ax.set_xticks(range(1, 13))
+    ax.set_xticklabels(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+    ax.legend()
+    
+    return fig
+
+'''
 def plot_prediction_context():
 
-    pass
+    """
+    Plot the actual vs predicted values
+    """
+    fig, ax = plt.subplots(figsize = (10,6))
+    ax.scatter(y_test, y_pred, alpha=0.7)
+    ax.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], 'r--')
+    ax.set_xlabel("Actual Avg Temperature")
+    ax.set_ylabel("Predicted Avg Temperature")
+    ax.set_title("Actual vs Predicted Avg Temperatures")
+    ax.grid(True)
+    
+    return fig
+'''

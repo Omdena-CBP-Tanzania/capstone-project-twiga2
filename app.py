@@ -27,7 +27,5 @@ if page == "Data Exploration":
 elif page == "Model Training":
     model_training.show(df)
 
-else:
+else :
     prediction_page.show(df)
-
-

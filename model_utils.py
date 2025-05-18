@@ -73,3 +73,5 @@ def load_model(filename = 'climate_model.pkl'):
         return model
     except FileNotFoundError:
         return None
+    except Exception as e:
+        return None
